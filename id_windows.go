@@ -57,7 +57,7 @@ func getSmbiosUUID() (uuid string, err error) {
 	output, err := cmd.Output()
 	flag := false
 	if err == nil {
-		uuid = strings.Split(string(output), "\n")[1]
+		uuid = strings.TrimRight(strings.Split(string(output), "\n")[1], "\r\n")
 		if uuid == "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF" {
 			err = fmt.Errorf("smbios return FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF")
 			flag = false
@@ -69,7 +69,7 @@ func getSmbiosUUID() (uuid string, err error) {
 		cmd = exec.Command("wmic", "bios", "get", "serialnumber")
 		output, err = cmd.Output()
 		if err == nil {
-			uuid = strings.Split(string(output), "\n")[1]
+			uuid = strings.TrimRight(strings.Split(string(output), "\n")[1], "\r\n")
 			flag = true
 		}
 	}
